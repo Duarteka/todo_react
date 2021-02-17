@@ -9,9 +9,18 @@ class Formulario extends Component{
     }
     render(){
         return(
-            <form>
-                <input type="text" />
-                <input type="submit" value="crear" />  
+            <form onSubmit={
+                evento => {
+                    evento.preventDefault();
+                    console.log(this.state.tarea);
+                }
+            }>
+                <input type="text" value ={this.state.tarea} onChange={
+                    evento =>{
+                        this.setState({ tarea : evento.target.value });
+                    }
+                } />
+                <input type="submit" value="crear"  />  
                                
             </form>
         );

@@ -18,8 +18,17 @@ class Tarea extends Component{
                         this.setState({ editando : !this.state.editando });
                     }
                 }>{this.state.editando ? "guardar" : "editar"}</a>
-                <a className="boton" href="#">borrar</a>
-                <button className={`estado ${this.props.terminada ? "terminada" : ""}`}><span></span></button>
+                <a className="boton" href="#" onClick={
+                    evento => {
+                        evento.preventDefault();
+                        this.props.borrarTarea(this.props.id);
+                    }
+                }>Borrar</a>
+                <button className={`estado ${this.props.terminada ? "terminada" : ""}`}onClick={
+                    ()=>{
+                        this.props.actualizarEstado(this.props.id);
+                    }
+                }><span></span></button>
             </div>
         );
     }
