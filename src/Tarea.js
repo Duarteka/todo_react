@@ -1,4 +1,5 @@
 import  React,{ Component } from "react";
+import ajax from "./Ajax";
 
 class Tarea extends Component{
     constructor(){
@@ -9,7 +10,10 @@ class Tarea extends Component{
         };
     }
     componentDidMount(){
-        this.setState({ temporal : this.props.tarea});
+        this.setState({ 
+            temporal : this.props.tarea
+            
+        });
     }
     render(){ 
         return (
@@ -27,7 +31,14 @@ class Tarea extends Component{
                             //guardar
                             if(this.state.temporal.trim() != "" && this.state.temporal.trim()!= this.props.tarea){
                                 //guardar
-                                this.props.actualizarTarea(this.props.id, this.state.temporal);
+                                var datos = { id : this.props.id, tarea : this.state.temporal, operacion : 1};
+                                
+                                ajax('PUT', datos).then(datos => {
+                                    if(datos.resultado === "ok"){
+                                        this.setState({ editando : false });
+                                        this.props.actualizarTarea(this.props.id, this.state.temporal);
+                                    }
+                                });
                             }else{
                                 this.setState({
                                     temporal : this.props.tarea,

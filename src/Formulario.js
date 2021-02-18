@@ -14,8 +14,8 @@ class Formulario extends Component{
                     evento.preventDefault();
                     if(this.state.tarea.trim().length > 0 ){
                         this.props.crearTarea(this.state.tarea);
+                        this.setState({tarea : ""});
                     }
-                    
                 }
             }>
                 <input type="text" value ={this.state.tarea} onChange={
