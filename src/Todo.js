@@ -15,11 +15,29 @@ class Todo extends Component{
         
         ajax("POST",datos).then(datos =>{
             if(datos.resultado === "ok"){
+                var tareas = this.state.tareas;
+                tareas.push({ 
+                    id : datos.id, 
+                    tarea : tarea,
+                    terminada : 0
+                });
+                this.setState({ tareas : tareas });
+            }
+        });
+    }
+    actualizarTarea = (id,tarea)=>{
+        var datos = { id : id, tarea : tarea, operacion : 1};
+        ajax('PUT', datos).then(datos => {
+            if(datos.resultado === "ok"){
+                var tareas = this.state.tareas.map(item => {
+                    if(Number(item.id)== Number(id)){
+                        item.tarea = tarea;
+                    }
+                    return item;
+                });
                 
             }
         });
-
-
     }
     actualizarEstado = id => {
         var datos = { id : id, operacion : 2 };
@@ -50,16 +68,16 @@ class Todo extends Component{
     componentDidMount(){
         
         ajax().then(datos => {
-            console.log(datos)
+            
             this.setState({ tareas : datos });
         });
     }
     render(){
         return (
         <>
-        <Formulario />
+        <Formulario crearTarea={this.crearTarea} />
             <section className="tareas">
-                {this.state.tareas.map((item,indice) =><Tarea key ={indice} id ={item.id}tarea={item.tarea} terminada={!!Number(item.terminada)} actualizarEstado={this.actualizarEstado} borrarTarea={this.borrarTarea} />)}
+                {this.state.tareas.map((item,indice) =><Tarea key ={indice} id ={item.id}tarea={item.tarea} terminada={!!Number(item.terminada)} actualizarEstado={this.actualizarEstado} borrarTarea={this.borrarTarea} actualizarTarea={this.actualizarTarea} />)}
             </section>
         </>
         );

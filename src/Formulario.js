@@ -12,7 +12,10 @@ class Formulario extends Component{
             <form onSubmit={
                 evento => {
                     evento.preventDefault();
-                    console.log(this.state.tarea);
+                    if(this.state.tarea.trim().length > 0 ){
+                        this.props.crearTarea(this.state.tarea);
+                    }
+                    
                 }
             }>
                 <input type="text" value ={this.state.tarea} onChange={
